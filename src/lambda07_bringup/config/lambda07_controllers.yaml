@@ -36,6 +36,12 @@ lambda07/fd_controller:
 
 lambda07/fd_ee_broadcaster:
   ros__parameters:
+    # Force Dimension reports Lambda.07 wrist angles in physical wrist-axis order.
+    # Axis 0 is parallel to world Z; axis 1 and 2 complete the handle frame.
+    orientation_axes:
+      - "z"
+      - "y"
+      - "x"
     transform_translation:
       - 0.0
       - 0.0

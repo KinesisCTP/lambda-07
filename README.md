@@ -31,9 +31,12 @@ forks of:
 
 The vendor package can wrap the Force Dimension SDK extracted from the original
 Lambda.07 USB media by passing `-DFD_SDK_ROOT=<path-to-sdk-3.17.7>`. Kinesis
-will provide that USB media through a Box shared folder for Linux and Windows
-drivers, manual SDK demos, PDFs, and offline lab setup. If `FD_SDK_ROOT` is not
-provided, the vendor package falls back to downloading the configured SDK version.
+provides the USB media through this Box shared folder:
+https://nyu.box.com/s/pwvzxy0muptwxoucpn8e4xnkkil2vow4
+
+Use that folder for Linux and Windows drivers, manual SDK demos, PDFs, and
+offline lab setup. If `FD_SDK_ROOT` is not provided, the vendor package falls
+back to downloading the configured SDK version.
 
 ## Host Target
 

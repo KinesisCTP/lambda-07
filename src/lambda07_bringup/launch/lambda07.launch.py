@@ -1,5 +1,6 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IfCondition
+from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
@@ -13,6 +14,7 @@ def generate_launch_description():
     interface_sn = LaunchConfiguration('interface_sn')
     effector_mass = LaunchConfiguration('effector_mass')
     use_rviz = LaunchConfiguration('use_rviz')
+    use_inertia_broadcaster = LaunchConfiguration('use_inertia_broadcaster')
 
     robot_description_content = Command([
         PathJoinSubstitution([FindExecutable(name='xacro')]),
@@ -79,10 +81,18 @@ def generate_launch_description():
             'joint_state_broadcaster',
             'fd_controller',
             'fd_ee_broadcaster',
-            'fd_inertia_broadcaster',
             'fd_clutch_broadcaster',
         ]
     ]
+    spawners.append(
+        Node(
+            package='controller_manager',
+            executable='spawner',
+            namespace='lambda07',
+            arguments=['fd_inertia_broadcaster', '--controller-manager', '/lambda07/controller_manager'],
+            condition=IfCondition(use_inertia_broadcaster),
+        )
+    )
 
     rviz = Node(
         package='rviz2',
@@ -100,6 +110,7 @@ def generate_launch_description():
         DeclareLaunchArgument('interface_sn', default_value='-1'),
         DeclareLaunchArgument('effector_mass', default_value='-1.0'),
         DeclareLaunchArgument('use_rviz', default_value='true'),
+        DeclareLaunchArgument('use_inertia_broadcaster', default_value='false'),
         controller_manager,
         robot_state_publisher,
         static_tf,

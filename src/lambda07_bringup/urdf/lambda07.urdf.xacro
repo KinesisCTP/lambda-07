@@ -129,7 +129,8 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <parent link="${robot_id}_ee"/>
       <child link="${robot_id}_virtual_clutch_link"/>
-      <axis xyz="1 0 0"/>
+      <!-- Virtualized gripper/clutch state follows the handle-frame Y' side axis. -->
+      <axis xyz="0 1 0"/>
       <limit effort="12" velocity="1.0" lower="-0.05" upper="0.05"/>
     </joint>
   </xacro:macro>

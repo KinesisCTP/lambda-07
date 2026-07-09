@@ -35,6 +35,52 @@ https://nyu.box.com/s/pwvzxy0muptwxoucpn8e4xnkkil2vow4
 Use that folder for Linux and Windows drivers, manual SDK demos, PDFs, and
 offline lab setup.
 
+## Recommended Onboarding Sequence
+
+Before setting up ROS 2, validate the device with the official Force Dimension
+SDK media. This separates hardware/driver problems from ROS integration issues.
+
+1. Download the Box folder and extract the package for your operating system.
+   On Linux, this repository expects the SDK folder to look like:
+
+   ```text
+   ~/Lambda.07_USB/Linux/x86_64/sdk-3.17.7
+   ```
+
+2. Read the official Lambda manual and SDK notes from the USB media. For the
+   Lambda.07, start with:
+
+   ```text
+   ~/Lambda.07_USB/Manuals/lambda.x.pdf
+   ```
+
+3. Run the official SDK examples before using ROS. On Linux:
+
+   ```bash
+   cd ~/Lambda.07_USB/Linux/x86_64/sdk-3.17.7/bin
+   ./HapticInit
+   ./Emporium
+   ```
+
+   `HapticInit` initializes and checks the device. `Emporium` exercises a wider
+   set of haptic capabilities and is a good interactive sanity check. Other
+   useful examples in the same folder include `HapticDesk`, `gravity`,
+   `autoinit`, and `torques`.
+
+4. If Linux reports a missing shared library when starting an SDK example,
+   install the package requested by the error and retry. To inspect unresolved
+   runtime dependencies:
+
+   ```bash
+   ldd ./HapticInit | grep 'not found'
+   ldd ./Emporium | grep 'not found'
+   ```
+
+5. If SDK examples only work with `sudo`, install the udev rule below, unplug
+   and reconnect the device, then retry the same SDK examples without `sudo`.
+
+After the official SDK examples work, continue with the ROS 2 setup below.
+
 ## Host Target
 
 Use Ubuntu 24.04 with ROS 2 Jazzy for the most conservative path. The upstream

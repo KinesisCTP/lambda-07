@@ -29,14 +29,11 @@ forks of:
 - `KinesisCTP/forcedimension_ros2`
 - `KinesisCTP/fd_sdk_vendor`
 
-The vendor package can wrap the Force Dimension SDK extracted from the original
-Lambda.07 USB media by passing `-DFD_SDK_ROOT=<path-to-sdk-3.17.7>`. Kinesis
-provides the USB media through this Box shared folder:
+Kinesis provides the original Lambda.07 USB media through this Box shared folder:
 https://nyu.box.com/s/pwvzxy0muptwxoucpn8e4xnkkil2vow4
 
 Use that folder for Linux and Windows drivers, manual SDK demos, PDFs, and
-offline lab setup. If `FD_SDK_ROOT` is not provided, the vendor package falls
-back to downloading the configured SDK version.
+offline lab setup.
 
 ## Host Target
 
@@ -72,6 +69,20 @@ rosdep install --from-paths src --ignore-src -r -y
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --symlink-install
 source install/setup.bash
 ```
+
+If you downloaded or copied the original USB media from Box, point the build at
+that extracted SDK instead of letting `fd_sdk_vendor` download one:
+
+```bash
+colcon build \
+  --cmake-args \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DFD_SDK_ROOT=$HOME/Lambda.07_USB/Linux/x86_64/sdk-3.17.7 \
+  --symlink-install
+```
+
+Replace `$HOME/Lambda.07_USB/Linux/x86_64/sdk-3.17.7` with the actual path to
+the extracted `sdk-3.17.7` folder on your computer.
 
 ## USB Access Without sudo
 

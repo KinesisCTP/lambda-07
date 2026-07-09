@@ -27,35 +27,14 @@
       </visual>
     </link>
 
-    <link name="${robot_id}_x_link">
-      <visual>
-        <origin xyz="0.04 0 0" rpy="0 1.57079632679 0"/>
-        <geometry>
-          <cylinder radius="0.006" length="0.08"/>
-        </geometry>
-        <material name="lambda07_axis_x"/>
-      </visual>
-    </link>
+    <link name="${robot_id}_x_link"/>
 
-    <link name="${robot_id}_y_link">
-      <visual>
-        <origin xyz="0 0.04 0" rpy="1.57079632679 0 0"/>
-        <geometry>
-          <cylinder radius="0.006" length="0.08"/>
-        </geometry>
-        <material name="lambda07_axis_y"/>
-      </visual>
-    </link>
 
-    <link name="${robot_id}_z_link">
-      <visual>
-        <origin xyz="0 0 0.04" rpy="0 0 0"/>
-        <geometry>
-          <cylinder radius="0.006" length="0.08"/>
-        </geometry>
-        <material name="lambda07_axis_z"/>
-      </visual>
-    </link>
+    <link name="${robot_id}_y_link"/>
+
+
+    <link name="${robot_id}_z_link"/>
+
 
     <link name="${robot_id}_roll_link"/>
     <link name="${robot_id}_pitch_link"/>
@@ -69,17 +48,30 @@
         </geometry>
         <material name="lambda07_ee_mat"/>
       </visual>
-    </link>
-
-    <link name="${robot_id}_virtual_clutch_link">
       <visual>
-        <origin xyz="0.025 0 0" rpy="0 1.57079632679 0"/>
+        <origin xyz="0.035 0 0" rpy="0 1.57079632679 0"/>
         <geometry>
-          <cylinder radius="0.004" length="0.05"/>
+          <cylinder radius="0.003" length="0.07"/>
         </geometry>
-        <material name="lambda07_ee_mat"/>
+        <material name="lambda07_axis_x"/>
+      </visual>
+      <visual>
+        <origin xyz="0 0.035 0" rpy="1.57079632679 0 0"/>
+        <geometry>
+          <cylinder radius="0.003" length="0.07"/>
+        </geometry>
+        <material name="lambda07_axis_y"/>
+      </visual>
+      <visual>
+        <origin xyz="0 0 0.035" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.003" length="0.07"/>
+        </geometry>
+        <material name="lambda07_axis_z"/>
       </visual>
     </link>
+
+    <link name="${robot_id}_virtual_clutch_link"/>
 
     <joint name="${robot_id}_x" type="prismatic">
       <origin rpy="0 0 0" xyz="0 0 0"/>

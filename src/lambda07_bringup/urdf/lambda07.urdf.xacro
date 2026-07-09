@@ -71,7 +71,15 @@
       </visual>
     </link>
 
-    <link name="${robot_id}_virtual_clutch_link"/>
+    <link name="${robot_id}_virtual_clutch_link">
+      <visual>
+        <origin xyz="0 0.035 0" rpy="1.57079632679 0 0"/>
+        <geometry>
+          <cylinder radius="0.004" length="0.07"/>
+        </geometry>
+        <material name="lambda07_axis_y"/>
+      </visual>
+    </link>
 
     <joint name="${robot_id}_x" type="prismatic">
       <origin rpy="0 0 0" xyz="0 0 0"/>

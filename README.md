@@ -6,8 +6,8 @@ the Force Dimension Lambda.07 haptic device in ROS 2.
 It provides:
 
 - `.repos` manifests for the Kinesis forks of the Force Dimension ROS 2 stack;
-- a Lambda.07-specific bringup package with 7-DOF controller configuration;
-- an RViz view for the device end-effector pose, orientation frames, and clutch;
+- a Lambda.07-specific bringup package for read-only state, pose, and RViz validation;
+- an RViz view for the device end-effector pose, orientation frames, and clutch marker;
 - a udev helper so the SDK and ROS node can access the USB device without `sudo`;
 - guidance for using the Box-hosted Force Dimension SDK media without committing
   vendor binaries to git.
@@ -136,15 +136,18 @@ ros2 topic echo /lambda07/ee_pose
 ros2 topic echo /lambda07/fd_clutch
 ```
 
-The device wrench command topic is:
+Force output is not enabled by default and should be treated as experimental.
+Do not publish force commands to the real Lambda.07 from this workspace yet. The
+read-only state, pose, clutch-button, and RViz paths are the currently validated
+onboarding path.
 
-```text
-/lambda07/fd_controller/commands
-```
-
-Start with fake hardware and very small commands. Do not publish force commands
-to the real device until the workspace has been checked by an operator familiar
-with the Lambda.07 and the Force Dimension SDK examples.
+The upstream Force Dimension ROS 2 stack exposes an effort controller path, but
+on this Ubuntu 24.04 / ROS 2 Kilted workstation the real Lambda.07 force path
+still needs follow-up: controller activation reached the hardware, but testing
+hit `std::out_of_range: unordered_map::at` and command-interface activation
+failures before any nonzero force command was safely sent. Keep force-command
+work behind an explicit development branch until that hardware-interface issue
+is isolated.
 
 ## Contributor Setup
 
@@ -172,11 +175,14 @@ git switch -c feature/lambda07-validation
 ## Current Validation Notes
 
 - Local SDK media found at `~/Lambda.07_USB/Linux/x86_64/sdk-3.17.7`.
-- Local SDK demos detect and run the physical Lambda.07 when started with
-  `sudo`.
+- Local SDK demos detect and run the physical Lambda.07. After installing the
+  udev rule, SDK demos and ROS can access the USB device without `sudo` on this
+  workstation.
 - `lsusb` reports `1451:040c Force Dimension lambda.x`.
-- The upstream ROS 2 stack is generic Force Dimension hardware through
-  `ros2_control`, but its README only lists Omega and Falcon as tested devices.
-- Lambda.07-specific launch and controller settings still need real-device
-  validation.
+- Fake-hardware launch opens RViz successfully.
+- Real-device read-only launch connects to the Lambda.07, publishes joint state,
+  end-effector pose, and clutch-button state, and displays the simplified RViz
+  model.
+- Force output is not validated. A force-controller investigation was stopped
+  before any nonzero force command was sent to the real device.
 

@@ -15,6 +15,7 @@ def generate_launch_description():
     effector_mass = LaunchConfiguration('effector_mass')
     use_rviz = LaunchConfiguration('use_rviz')
     use_inertia_broadcaster = LaunchConfiguration('use_inertia_broadcaster')
+    use_effort_controller = LaunchConfiguration('use_effort_controller')
 
     robot_description_content = Command([
         PathJoinSubstitution([FindExecutable(name='xacro')]),
@@ -79,11 +80,19 @@ def generate_launch_description():
         )
         for controller in [
             'joint_state_broadcaster',
-            'fd_controller',
             'fd_ee_broadcaster',
             'fd_clutch_broadcaster',
         ]
     ]
+    spawners.append(
+        Node(
+            package='controller_manager',
+            executable='spawner',
+            namespace='lambda07',
+            arguments=['fd_controller', '--controller-manager', '/lambda07/controller_manager'],
+            condition=IfCondition(use_effort_controller),
+        )
+    )
     spawners.append(
         Node(
             package='controller_manager',
@@ -111,6 +120,7 @@ def generate_launch_description():
         DeclareLaunchArgument('effector_mass', default_value='-1.0'),
         DeclareLaunchArgument('use_rviz', default_value='true'),
         DeclareLaunchArgument('use_inertia_broadcaster', default_value='false'),
+        DeclareLaunchArgument('use_effort_controller', default_value='false'),
         controller_manager,
         robot_state_publisher,
         static_tf,

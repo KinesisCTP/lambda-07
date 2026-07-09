@@ -118,8 +118,8 @@ Expected topics include:
 
 ```bash
 ros2 topic echo /lambda07/joint_states
-ros2 topic echo /lambda07/fd/ee_pose
-ros2 topic echo /lambda07/fd/fd_clutch_broadcaster/clutch
+ros2 topic echo /lambda07/ee_pose
+ros2 topic echo /lambda07/fd_clutch
 ```
 
 The device wrench command topic is:
